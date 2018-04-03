@@ -12,6 +12,7 @@ BASE_DIR = root()
 SECRET_KEY = env('SECRET_KEY')
 
 DEBUG = True
+TEST = False
 
 ALLOWED_HOSTS = []
 
