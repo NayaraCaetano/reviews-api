@@ -36,7 +36,8 @@ jobs:
           when: always
           name: "Send coverage data"
           command: |
-            coverage xml --omit venv/**,**/migrations/**,**/settings/**,**/tests.py
+            . venv/bin/activate
+            coverage xml --omit venv/**,**/migrations/**,**/settings/**,**/tests.py,**/__init__.py
             ./cc-test-reporter after-build -t coverage.py
       - store_artifacts:
           path: coverage.xml
