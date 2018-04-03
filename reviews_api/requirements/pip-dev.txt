@@ -1,3 +1,8 @@
 -r pip-base.txt
 
 ipdb
+factory-boy==2.10.0
+pytest==3.5.0
+pytest-cov==2.5.1
+pytest-django==3.1.2
+model-mommy==1.5.1
