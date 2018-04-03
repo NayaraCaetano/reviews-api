@@ -12,6 +12,7 @@ BASE_DIR = root()
 SECRET_KEY = env('SECRET_KEY')
 
 DEBUG = True
+TEST = False
 
 ALLOWED_HOSTS = []
 
@@ -19,12 +20,21 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+
+    #  django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #  other
+    'rest_framework',
+    'rest_framework_jwt',
+
+    #  project
+    'authentication'
 ]
 
 MIDDLEWARE = [
@@ -100,6 +110,9 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+
+AUTH_USER_MODEL = 'authentication.User'
 
 
 # Static files (CSS, JavaScript, Images)
