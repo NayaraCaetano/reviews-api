@@ -30,5 +30,5 @@ class UserSignInSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
-    def update(self, isinstance, validated_data):
+    def update(self, instance, validated_data):
         raise Exception(_('You can\'t edit a user here!'))
