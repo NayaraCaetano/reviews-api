@@ -34,7 +34,8 @@ INSTALLED_APPS = [
     'rest_framework_jwt',
 
     #  project
-    'authentication'
+    'authentication',
+    'review'
 ]
 
 MIDDLEWARE = [
