@@ -107,7 +107,9 @@ class SignInTestCase(BaseTestCase):
         data = self._default_signin_data()
         serializer = UserSignInSerializer(data=data)
         serializer.is_valid()
-        self.assertEquals(data, serializer.data)
+        del data['password']
+        del data['confirm_password']
+        self.assertEquals(data.keys(), serializer.data.keys())
 
     @parameterized.expand([
         ('email',),

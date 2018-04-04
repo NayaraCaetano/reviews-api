@@ -7,7 +7,7 @@ from parameterized import parameterized
 
 from rest_framework.reverse import reverse_lazy
 
-from reviews_api.tests import BaseTestCase
+from reviews_api.tests import BaseTestCase, generate_string_with_size
 
 from review.serializers import ReviewSerializer
 from review.models import Company, Review
@@ -41,7 +41,7 @@ class ReviewTestCase(BaseTestCase):
         )
 
     @parameterized.expand([
-        (('a' * 65), _('Ensure this field has no more than 64 characters.')),
+        (generate_string_with_size(65), _('Ensure this field has no more than 64 characters.')),
     ])
     def test_validate_title(self, value, message):
         data = self._default_review_data(title=value)
@@ -52,7 +52,7 @@ class ReviewTestCase(BaseTestCase):
         )
 
     @parameterized.expand([
-        (('a' * 10000001), _('Ensure this field has no more than 10000 characters.')),
+        (generate_string_with_size(10001), _('Ensure this field has no more than 10000 characters.')),
     ])
     def test_validate_summary(self, value, message):
         data = self._default_review_data(summary=value)

@@ -1,3 +1,5 @@
+import random, string
+
 from django.test import TestCase
 
 from faker import Faker
@@ -50,3 +52,7 @@ class BaseTestCase(TestCase):
             company=foreign_key(self._company_recipe),
             reviewer=self.get_auth_user
         )
+
+
+def generate_string_with_size(size):
+    return ''.join(random.choice(string.ascii_lowercase) for x in range(size))
