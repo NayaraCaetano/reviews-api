@@ -1,0 +1,45 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/reviews_api
+    docker:
+      - image: circleci/python:3.6.1
+        environment:
+          DJANGO_SETTINGS_MODULE: reviews_api.settings.test
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "reviews_api/requirements/pip-dev.txt" }}
+      - run:
+          name: "Dependencies"
+          command: |
+            sudo pip install virtualenv
+            python -m virtualenv venv
+            . venv/bin/activate
+            pip install -r reviews_api/requirements/pip-dev.txt
+      - save_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "reviews_api/requirements/pip-dev.txt" }}
+          paths:
+            - "venv"
+      - run:
+          name: Setup CodeClimate
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+      - run:
+          name: "Tests"
+          command: |
+            . venv/bin/activate
+            ./cc-test-reporter before-build
+            pytest --ignore=venv/ --junitxml=unit_test_results.xml --cov
+      - run:
+          when: always
+          name: "Send coverage data"
+          command: |
+            . venv/bin/activate
+            coverage xml --omit venv/**,**/migrations/**,**/settings/**,**/tests.py,**/__init__.py
+            ./cc-test-reporter after-build -t coverage.py
+      - store_artifacts:
+          path: coverage.xml
+      - store_test_results:
+          path: unit_test_results.xml
