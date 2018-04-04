@@ -19,3 +19,7 @@ REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = (
 REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] = (
     'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
 )
+
+RAVEN_CONFIG = {
+    'dsn': env('SENTRY_DSN'),
+}

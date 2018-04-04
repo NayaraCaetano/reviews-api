@@ -1,9 +1,11 @@
 import environ
 import os
+import raven
 
 root = environ.Path(__file__) - 3
 env = environ.Env(
     SECRET_KEY=(str, ''),
+    SENTRY_DSN=(str, '')
 )
 environ.Env.read_env(str(root('.env')))
 
@@ -30,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     #  other
+    'raven.contrib.django.raven_compat',
     'rest_framework',
     'rest_framework_jwt',
 
@@ -134,4 +137,8 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.JSONParser',
         'rest_framework.parsers.MultiPartParser',
     ),
+}
+
+RAVEN_CONFIG = {
+    'dsn': '',
 }
