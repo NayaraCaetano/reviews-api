@@ -15,7 +15,7 @@ class LoginIntegrationTestCase(BaseTestCase):
     URL = reverse_lazy('user_login')
 
     def _create_user(self, email, password):
-        user = self._user_recipe().make(email=email)
+        user = self._user_recipe.make(email=email)
         user.set_password(password)
         user.save()
         return user
@@ -65,7 +65,7 @@ class SignInTestCase(BaseTestCase):
         }
 
     def test_cant_update_user_using_sign_in_serializer(self):
-        user = self._user_recipe().make()
+        user = self._user_recipe.make()
         serializer = UserSignInSerializer(user, self._default_signin_data())
         with pytest.raises(Exception) as excinfo:
             serializer.save()
@@ -97,7 +97,7 @@ class SignInTestCase(BaseTestCase):
         ('invalid', _('Enter a valid email address.')),
     ])
     def test_validate_email(self, email, message):
-        self._user_recipe().make(email=email)
+        self._user_recipe.make(email=email)
         data = self._default_signin_data(email=email)
         serializer = UserSignInSerializer(data=data)
         serializer.is_valid()
@@ -107,8 +107,6 @@ class SignInTestCase(BaseTestCase):
         data = self._default_signin_data()
         serializer = UserSignInSerializer(data=data)
         serializer.is_valid()
-        del data['password']
-        del data['confirm_password']
         self.assertEquals(data, serializer.data)
 
     @parameterized.expand([
@@ -138,7 +136,7 @@ class SignInTestCase(BaseTestCase):
         ('confirm_password',)
     ])
     def test_write_only_fields(self, field):
-        user = self._user_recipe().make()
+        user = self._user_recipe.make()
         serializer = UserSignInSerializer(user)
         self.assertFalse(serializer.to_representation(user).get(field))
 
